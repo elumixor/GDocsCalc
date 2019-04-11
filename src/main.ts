@@ -1,101 +1,52 @@
-import * as auth from "./authorization"
-import * as ss from "./spreadsheet"
-import {sheets} from "googleapis/build/src/apis/sheets"
+import {app, BrowserWindow} from "electron"
+import * as path from "path"
 
-// Login
-auth.login().then(async (credentials) => {
-        // Get data from spreadsheet
-        const data = await ss.getData(credentials)
+let mainWindow: Electron.BrowserWindow
 
-        // Calculate required data
-        const calculated = calculateData(data)
-
-        // Updated spreadsheet with calculated data
-        ss.updateData(calculated).catch(err => {
-            console.error(err)
-        })
-    }, (err) => {
-        console.error(err)
-    }
-)
-
-/** Calculates TODO from TODO */
-function calculateData(data) {
-    console.log(data);
-    return data;
-}
-//client.credentials = tokens
-
-
-
-///**
-// * Print the names and majors of students in a sample spreadsheet:
-// * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-// */
-function listMajors(auth) {
-
-    //
-    //let requests = []
-    //
-    //// Change the spreadsheet's title.
-    //requests.push({
-    //    updateSpreadsheetProperties: {
-    //        properties: {
-    //            title: "skdjaskdjksj"
-    //        },
-    //        fields: "title"
-    //    }
-    //})
-    //// Find and replace text.
-    //requests.push({
-    //    findReplace: {
-    //        find: "hellohello",
-    //        replacement: "vled",
-    //        allSheets: true
-    //    }
-    //})
-    //// Add additional requests (operations) ...
-    //const batchUpdateRequest = {requests}
-    //
-    //sheets.spreadsheets.batchUpdate({
-    //    // The ID of the spreadsheet to update.
-    //    auth: auth,
-    //    spreadsheetId: "1zg_WPZlTZ3rlkSiPNxnd_6jebF3iKMJA0LWfcGAd3UQ",
-    //    // The A1 notation of the values to update.
-    //    //@ts-ignore
-    //    resource: batchUpdateRequest
-    //}, (res, err) => {
-    //    if (err) {
-    //        console.log(err)
-    //    }
-    //    console.log(res)
-    //})
-
-    let values = [
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9],
-        [10, 23, "dot"]
-    ]
-    sheets.spreadsheets.values.update({
-        auth: auth,
-        spreadsheetId,
-        range: "Sheet1!D1:F4",
-        valueInputOption: "RAW",
-        //@ts-ignore
-        resource: {
-            values
-        }
-    }, (err, result) => {
-        if (err) {
-            // Handle error
-            console.log(err)
-            throw err
-        } else {
-            console.log(result)
-            console.log("%d cells updated.", result.updatedCells)
+function createWindow() {
+    // Create the browser window.
+    mainWindow = new BrowserWindow({
+        height: 600,
+        width: 800,
+        frame: false,
+        webPreferences: {
+            experimentalFeatures: true
         }
     })
+
+    // and load the index.html of the app.
+    mainWindow.loadFile(path.join(__dirname, "../index.html"))
+
+    // Open the DevTools.
+    mainWindow.webContents.openDevTools()
+
+    // Emitted when the window is closed.
+    mainWindow.on("closed", () => {
+        // Dereference the window object, usually you would store windows
+        // in an array if your app supports multi windows, this is the time
+        // when you should delete the corresponding element.
+        mainWindow = null
+    })
 }
-//
-//// [END main_body]
+
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.on("ready", createWindow)
+
+// Quit when all windows are closed.
+app.on("window-all-closed", () => {
+    // On OS X it is common for applications and their menu bar
+    // to stay active until the user quits explicitly with Cmd + Q
+    if (process.platform !== "darwin") {
+        app.quit()
+    }
+})
+
+app.on("activate", () => {
+    // On OS X it"s common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (mainWindow === null) {
+        createWindow()
+    }
+})

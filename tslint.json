@@ -1,8 +1,22 @@
 {
-    "defaultSeverity": "error",
-    "jsRules": {},
-    "rules": {
-        "semicolon": [true, "never"]
+  "rules": {
+    "max-line-length": {
+      "options": [
+        120
+      ]
     },
-    "rulesDirectory": [],
+    "new-parens": true,
+    "no-arg": true,
+    "no-bitwise": true,
+    "no-conditional-assignment": true,
+    "no-consecutive-blank-lines": false,
+    "semicolon": [true, "never"]
+  },
+  "jsRules": {
+    "max-line-length": {
+      "options": [
+        120
+      ]
+    }
+  }
 }
