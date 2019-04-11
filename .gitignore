@@ -115,4 +115,8 @@ typings/
 # next.js build output
 .next
 
+# compiled javascript files
 src/**/*.js
+
+# sensitive data
+sdata
