@@ -117,6 +117,7 @@ typings/
 
 # compiled javascript files
 src/**/*.js
+test/**/*.js
 
 # sensitive data
 sdata

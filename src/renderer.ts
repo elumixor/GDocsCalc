@@ -1,22 +1,36 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// All of the Node.js APIs are available in this process.
-
 import {remote} from "electron"
-import * as path from "path"
+import {dragWindowOn, removeInnerWhitespacesRecursively, safeDrag} from "./dom"
+import {Application, WorkerType} from "./Application"
 
-const fs = remote.require("fs")
+const app = new Application()
 
-const directoryPath = path.join(__dirname, "../data/data")
-//// passing directoryPath and callback function
-fs.readdir(directoryPath, (err: any, files: any[]) => {
-    // handling error
-    if (err) {
-        return console.log("Unable to scan directory: " + err)
-    }
-    // listing all files using forEach
-    files.forEach(file => {
-        // Do whatever you want to do with the file
-        console.log(file)
-    })
-})
+removeInnerWhitespacesRecursively(document.body)
+
+// Draggable window
+dragWindowOn()
+document.getElementById("window-close")
+    .addEventListener("click", safeDrag(() => remote.getCurrentWindow().close()))
+
+const sales = document.getElementById("selectSales")
+const junior = document.getElementById("selectJunior")
+
+sales.onclick = () => {
+    app.workerType = WorkerType.Sales
+    sales.classList.add("active")
+    junior.classList.remove("active")
+}
+junior.onclick = () => {
+    app.workerType = WorkerType.Junior
+    junior.classList.add("active")
+    sales.classList.remove("active")
+}
+
+const meetings = document.getElementById("inputMeetings") as HTMLInputElement
+const goal = document.getElementById("inputGoal") as HTMLInputElement
+const achieved = document.getElementById("inputAchieved") as HTMLInputElement
+
+// todo: check allowed characters
+
+meetings.oninput = () => app.meetingsCount = parseInt(meetings.value, 10)
+goal.oninput = () => app.goal = parseInt(goal.value, 10)
+achieved.oninput = () => app.achieved = parseInt(achieved.value, 10)

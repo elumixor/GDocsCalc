@@ -1,13 +1,45 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
-  </head>
-  <body style="-webkit-app-region: drag;">
-  </body>
-  <script>
-    // You can also require other files to run in this process
-    require('./dist/renderer.js')
-  </script>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+<div id="window-close" class="button">
+    <svg xmlns="http://www.w3.org/2000/svg" width="13.014" height="13.014" viewBox="0 0 13.014 13.014">
+        <path id="Union_1" d="M6.154,6.154,0,12.307,6.154,6.154,0,0,6.154,6.154,12.307,0,6.154,6.154l6.154,6.154Z"
+              transform="translate(0.354 0.354)" stroke-width=".5"></path>
+    </svg>
+</div>
+
+<div class="table-bg"></div>
+<table>
+    <tr>
+        <td class="label-col">Worker Type</td>
+        <td>
+            <span class="button half active" id="selectSales">Sales</span>
+            <span class="button half" id="selectJunior">Junior</span>
+        </td>
+    </tr>
+    <tr>
+        <td class="label-col">Meetings</td>
+        <td><input type="number" min="0" step="1" value="0" id="inputMeetings"></td>
+    </tr>
+    <tr>
+        <td class="label-col">Goal</td>
+        <td><input type="number" min="0" step="100" value="0" id="inputGoal"></td>
+    </tr>
+    <tr>
+        <td class="label-col">Achieved</td>
+        <td><input type="number" min="0" step="100" value="0" id="inputAchieved"></td>
+    </tr>
+    <tr class="revenue-row">
+        <td class="label-col">Revenue</td>
+        <td><span id="revenue">0</span></td>
+    </tr>
+</table>
+
+</body>
+<script>require('./dist/renderer.js')</script>
 </html>

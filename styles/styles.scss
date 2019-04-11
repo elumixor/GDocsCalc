@@ -1,0 +1,150 @@
+@import "layout";
+@import "colors";
+
+* {
+  font-family: "HelveticaNeue", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  color: $color-idle;
+  transition: all .1s ease-in-out;
+  &:hover {
+    > svg {
+      stroke: $color-hover
+    }
+  }
+
+  &:active {
+    > svg {
+      stroke: $color-active
+    }
+  }
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  transition: .3s background-color ease-in-out;
+}
+
+#window-close {
+  position: absolute;
+  padding: 10px;
+  top: $icon-size;
+  right: $icon-size;
+  height: $icon-size;
+  width: $icon-size;
+  z-index: 10;
+}
+
+svg {
+  height: $icon-size;
+  width: $icon-size;
+  stroke: $color-idle;
+
+  &:hover {
+  }
+
+}
+
+.button, button {
+  color: $color-idle;
+  cursor: pointer;
+
+  &:hover {
+    color: $color-hover
+  }
+
+  &:active {
+    color: $color-active
+  }
+}
+
+span, td, tr {
+  cursor: default;
+}
+
+table {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  padding: $icon-size * 3 0 $icon-size * 3 0;
+}
+
+tbody {
+  > * {
+    > td {
+      padding: 0 $icon-size * 3 0 $icon-size * 3;
+    }
+
+    min-height: $icon-size * 4;
+
+
+    &:not(.revenue-row) {
+      height: $icon-size * 4;
+    }
+  }
+}
+
+.label-col {
+  width: 36%;
+}
+
+.table-bg {
+  width: 36%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: #DEDEDE;
+}
+
+span.button {
+  border-bottom: 2px solid transparent;
+
+  &:hover {
+    border-bottom: 2px solid $color-hover;
+  }
+
+  &.active {
+    font-weight: 900;
+  }
+}
+
+tr {
+  > td {
+    &:not(.label-col) {
+      > * {
+        width: 100%;
+        text-align: right;
+        position: relative;
+        display: inline-block;
+        padding: 5px 0;
+
+        &.half {
+          width: 50%;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid $color-idle;
+  font-size: 1em;
+
+  &:focus {
+    outline: none;
+    border-bottom: 2px solid $color-active;
+  }
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#revenue {
+  font-weight: 900;
+}

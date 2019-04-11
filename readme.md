@@ -17,13 +17,13 @@ custom input / from tables
 - [x] BA
   - [x] Project description, goals
   - [x] What data from where
-- [ ] Application with custom input
-  - [ ] App setup w/ electron
+- [x] Application with custom input
+  - [x] App setup w/ electron
   - [ ] Setup unit testing
-  - [ ] XD Design
-  - [ ] Implementation
-    - [ ] Functionality
-    - [ ] Design and animation
+  - [x] XD Design
+  - [x] Implementation
+    - [x] Functionality
+    - [x] Design and animation
     - [ ] Test
 - [ ] Add automatic table data retrieval
   - [x] GDocs Api
