@@ -1,14 +1,15 @@
 {
   "name": "electron-quick-start-typescript",
   "version": "1.0.0",
-  "description": "A minimal Electron application written with Typescript",
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
     "lint": "tslint -c tslint.json -p tsconfig.json",
-    "start": "npm run build && electron ./dist/main.js"
+    "start": "npm run build && electron ./dist/main.js",
+    "test": "jasmine-ts --config=jasmine.json",
+    "testWithCoverage": "nyc -r lcov -e .ts -x \"*.test.ts\" jasmine-ts --config=jasmine.json && nyc report"
   },
-  "repository": "https://github.com/electron/electron-quick-start-typescript",
+  "repository": "https://github.com/elumixor/GDocsCalc",
   "keywords": [
     "Electron",
     "quick",
@@ -18,11 +19,19 @@
     "typescript"
   ],
   "author": "GitHub",
-  "license": "CC0-1.0",
   "devDependencies": {
+    "@types/jasmine": "^3.3.12",
     "electron": "latest",
-    "tslint": "latest",
+    "jasmine": "^3.4.0",
+    "jasmine-ts": "^0.3.0",
+    "karma": "^4.0.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "^2.0.1",
+    "karma-typescript": "^4.0.0",
+    "nyc": "^13.3.0",
     "ts-loader": "^5.3.3",
-    "typescript": "^3.3.4000"
+    "ts-node": "^8.0.3",
+    "tslint": "latest",
+    "typescript": "^3.4.3"
   }
 }
