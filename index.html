@@ -33,7 +33,13 @@
 </div>
 
 <div class="window-panel" id="window-set-sheets">
-
+    <label for="goals-sheet">Goals</label>
+    <input id="goals-sheet" name="goals-sheet" type="text">
+    <br>
+    <label for="meetings-sheet">Meetings</label>
+    <input id="meetings-sheet" name="meetings-sheet" type="text">
+    <br>
+    <span class="button" id="save-sheets">Save</span>
 </div>
 
 <div class="window-panel" id="window-calculate-offline">
@@ -64,6 +70,34 @@
         </tr>
     </table>
 </div>
+<div class="window-panel" id="window-calculate-online">
+    <div class="table-bg"></div>
+    <table>
+        <tr>
+            <td class="label-col">Worker Type</td>
+            <td>
+                <span class="button half active" id="onl-selectSales">Sales</span>
+                <span class="button half" id="onl-selectJunior">Junior</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="label-col">Meetings</td>
+            <td id="fetched-meetings"></td>
+        </tr>
+        <tr>
+            <td class="label-col">Goal</td>
+            <td id="fetched-goal"></td>
+        </tr>
+        <tr>
+            <td class="label-col">Achieved</td>
+            <td><input type="number" min="0" step="100" value="0" id="onl-inputAchieved"></td>
+        </tr>
+        <tr class="revenue-row">
+            <td class="label-col">Revenue</td>
+            <td><span id="onl-revenue">0</span></td>
+        </tr>
+    </table>
+</div>
 </body>
-<script>require('./dist/renderer.js')</script>
+<script>require('./dist/app.js')</script>
 </html>

@@ -9,7 +9,7 @@ export enum WorkerType {
 
 const revenueSpan = document.getElementById("revenue") as HTMLSpanElement
 
-export class Calculator extends Window {
+export class OfflineCalc extends Window {
     //region Worker Type
     private _workerType: WorkerType
 
@@ -117,5 +117,29 @@ export class Calculator extends Window {
     constructor(panel: WindowPanel) {
         super(panel)
         this.workerType = WorkerType.Sales
+
+        const sales = document.getElementById("selectSales")
+        const junior = document.getElementById("selectJunior")
+
+        sales.onclick = () => {
+            this.workerType = WorkerType.Sales
+            sales.classList.add("active")
+            junior.classList.remove("active")
+        }
+        junior.onclick = () => {
+            this.workerType = WorkerType.Junior
+            junior.classList.add("active")
+            sales.classList.remove("active")
+        }
+
+        const meetings = document.getElementById("inputMeetings") as HTMLInputElement
+        const goal = document.getElementById("inputGoal") as HTMLInputElement
+        const achieved = document.getElementById("inputAchieved") as HTMLInputElement
+
+        // todo: check allowed characters
+
+        meetings.oninput = () => this.meetingsCount = parseInt(meetings.value, 10)
+        goal.oninput = () => this.goal = parseInt(goal.value, 10)
+        achieved.oninput = () => this.achieved = parseInt(achieved.value, 10)
     }
 }
