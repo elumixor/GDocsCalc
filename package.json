@@ -1,13 +1,17 @@
 {
   "name": "electron-quick-start-typescript",
   "version": "1.0.0",
+  "main": "./dist/main.js",
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "start": "npm run build && electron ./dist/main.js",
     "test": "jasmine-ts --config=jasmine.json",
-    "testWithCoverage": "nyc -r lcov -e .ts -x \"*.test.ts\" jasmine-ts --config=jasmine.json && nyc report"
+    "testWithCoverage": "nyc -r lcov -e .ts -x \"*.test.ts\" jasmine-ts --config=jasmine.json && nyc report",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --prune=true --out=release-builds",
+    "package-win": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=win32 --arch=ia32 --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"CryptoApp\"",
+    "package-linux": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --prune=true --out=release-builds"
   },
   "repository": "https://github.com/elumixor/GDocsCalc",
   "keywords": [
@@ -22,6 +26,7 @@
   "devDependencies": {
     "@types/jasmine": "^3.3.12",
     "electron": "latest",
+    "electron-packager": "^13.1.1",
     "jasmine": "^3.4.0",
     "jasmine-ts": "^0.3.0",
     "karma": "^4.0.1",

@@ -38,7 +38,6 @@ export class Application {
     private _meetingsCount: number
 
     public set meetingsCount(m: number) {
-        // todo: change meetings count logic
         this._meetingsCount = m
         this.calculate()
     }
@@ -53,7 +52,6 @@ export class Application {
     private _goal: number
 
     public set goal(m: number) {
-        // todo: change meetings count logic
         this._goal = m
         this.calculate()
     }
@@ -68,7 +66,6 @@ export class Application {
     private _achieved: number
 
     public set achieved(m: number) {
-        // todo: change achieved count logic
         this._achieved = m
         this.calculate()
     }

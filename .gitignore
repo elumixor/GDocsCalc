@@ -121,3 +121,4 @@ test/**/*.js
 
 # sensitive data
 sdata
+release-builds
