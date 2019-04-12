@@ -1,0 +1,13 @@
+@import "../layout";
+
+#window-sign-in {
+  text-align: center;
+
+  > p {
+    padding: $icon-size * 4;
+  }
+}
+
+#google-sign-in {
+  margin-top: $icon-size * 7;
+}

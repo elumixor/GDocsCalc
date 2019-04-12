@@ -4,14 +4,27 @@
     <meta charset="UTF-8">
     <title>Hello World!</title>
     <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/windows/sign-in.css">
+    <link rel="stylesheet" href="styles/windows/set-sheets.css">
+    <link rel="stylesheet" href="styles/windows/calculate-offline.css">
+    <link rel="stylesheet" href="styles/windows/settings.css">
 </head>
 <body>
 <div id="window-close" class="button">
-    <svg xmlns="http://www.w3.org/2000/svg" width="13.014" height="13.014" viewBox="0 0 13.014 13.014">
+    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
         <path id="Union_1" d="M6.154,6.154,0,12.307,6.154,6.154,0,0,6.154,6.154,12.307,0,6.154,6.154l6.154,6.154Z"
               transform="translate(0.354 0.354)" stroke-width=".5"></path>
     </svg>
 </div>
+<div id="open-settings" class="button">
+    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 13">
+        <path id="Path_201" d="M679-220.5h12" transform="translate(-679 233)" stroke-width="1"></path>
+        <path id="Path_202" d="M679-220.5h12" transform="translate(-679 227)" stroke-width="1"></path>
+        <path id="Path_203" d="M679-220.5h12" transform="translate(-679 221)" stroke-width="1"></path>
+    </svg>
+</div>
+
+
 <div class="window-panel" id="window-sign-in">
     <button type="button" class="google-button" id="google-sign-in">
         <span class="google-button__icon">
@@ -33,11 +46,19 @@
 </div>
 
 <div class="window-panel" id="window-set-sheets">
-    <label for="goals-sheet">Goals</label>
-    <input id="goals-sheet" name="goals-sheet" type="text">
-    <br>
-    <label for="meetings-sheet">Meetings</label>
-    <input id="meetings-sheet" name="meetings-sheet" type="text">
+
+    <div class="input-container">
+        <label for="goals-sheet">Goals</label>
+        <br>
+        <input id="goals-sheet" name="goals-sheet" type="text">
+    </div>
+
+    <div class="input-container">
+        <label for="meetings-sheet">Meetings</label>
+        <br>
+        <input id="meetings-sheet" name="meetings-sheet" type="text">
+    </div>
+
     <br>
     <span class="button" id="save-sheets">Save</span>
 </div>
@@ -70,6 +91,7 @@
         </tr>
     </table>
 </div>
+
 <div class="window-panel" id="window-calculate-online">
     <div class="table-bg"></div>
     <table>
@@ -98,6 +120,11 @@
         </tr>
     </table>
 </div>
+
+<div class="window-panel" id="window-settings">
+    <div class="content"></div>
+</div>
+
 </body>
 <script>require('./dist/app.js')</script>
 </html>

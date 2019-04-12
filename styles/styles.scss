@@ -6,6 +6,7 @@
   font-family: "HelveticaNeue", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   color: $color-idle;
   transition: all .1s ease-in-out;
+
   &:hover {
     > svg {
       stroke: $color-hover
@@ -30,6 +31,16 @@ html, body {
   padding: 10px;
   top: $icon-size;
   right: $icon-size;
+  height: $icon-size;
+  width: $icon-size;
+  z-index: 10;
+}
+
+#open-settings {
+  position: absolute;
+  padding: 10px;
+  top: $icon-size;
+  left: $icon-size;
   height: $icon-size;
   width: $icon-size;
   z-index: 10;

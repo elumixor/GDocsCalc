@@ -6,25 +6,13 @@ import {WindowPanel} from "./WindowPanel"
 import {SignIn} from "./windows/SignIn"
 import {SetSheets} from "./windows/SetSheets"
 import {AutoCalc} from "./windows/AutoCalc"
+import {Settings} from "./windows/Settings"
+import {container} from "tsyringe"
+import {Application} from "./Application"
 
 removeInnerWhitespacesRecursively(document.body)
 
 // Draggable window
 dragWindowOn()
-document.getElementById("window-close")
-    .addEventListener("click", safeDrag(() => remote.getCurrentWindow().close()))
 
-const offlineCalc = new OfflineCalc(new WindowPanel("window-calculate-offline"))
-const sign = new SignIn(new WindowPanel("window-sign-in", false))
-const sheets = new SetSheets(new WindowPanel("window-set-sheets"))
-const autoCalc = new AutoCalc(new WindowPanel("window-calculate-online"))
-
-sign.singedId.subscribe(() => {
-    sign.panel.hide()
-    sheets.panel.show()
-})
-
-sheets.saved.subscribe(() => {
-    sheets.panel.hide()
-    autoCalc.panel.show()
-})
+const app = container.resolve(Application)

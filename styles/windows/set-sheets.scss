@@ -1,0 +1,26 @@
+@import "../layout";
+
+#window-set-sheets {
+  position: relative;
+  padding: $icon-size * 4;
+  text-align: center;
+
+  > .input-container {
+    &:first-child {
+      margin-top: $icon-size * 8;
+      margin-bottom: $icon-size * 3;
+    }
+
+
+    width: 100%;
+    text-align: left;
+    margin: $icon-size * 3 0 $icon-size * 8;
+
+    > input {
+      width: 100%;
+      text-align: right;
+    }
+  }
+}
+
+

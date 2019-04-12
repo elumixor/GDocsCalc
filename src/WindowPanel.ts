@@ -6,13 +6,17 @@ export class WindowPanel {
         this.panelDiv.style.backgroundColor = bg
     }
 
+    get isOpen() {
+        return !this.panelDiv.hidden
+    }
+
     constructor(id: string, hidden = true) {
         this.panelDiv = document.getElementById(id) as HTMLDivElement
         this.panelDiv.hidden = hidden
         WindowPanel.panels.push(this)
     }
 
-    public show() {
+    show() {
         this.panelDiv.hidden = false
     }
 

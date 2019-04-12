@@ -6,6 +6,12 @@ export function createDiv(className ?: string) {
     return el
 }
 
+export function createSpan(className ?: string) {
+    const el = document.createElement("span")
+    el.className = className || ""
+    return el
+}
+
 export function createCanvas(className ?: string) {
     const el = document.createElement("canvas")
     el.className = className || ""
@@ -45,6 +51,10 @@ export function safeDrag<T extends (...args: any[]) => any>(func: T):
         if (!windowDragged)
             return func(...args)
     }
+}
+
+export function removeChildren(node: Node) {
+    while (node.firstChild) node.removeChild(node.firstChild)
 }
 
 export function dragWindowOn() {

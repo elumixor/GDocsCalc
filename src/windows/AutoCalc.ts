@@ -7,7 +7,7 @@ export enum WorkerType {
     Sales, Junior
 }
 
-const revenueSpan = document.getElementById("revenue") as HTMLSpanElement
+const revenueSpan = document.getElementById("onl-revenue") as HTMLSpanElement
 
 export class AutoCalc extends Window {
     //region Worker Type
@@ -118,8 +118,8 @@ export class AutoCalc extends Window {
         super(panel)
         this.workerType = WorkerType.Sales
 
-        const sales = document.getElementById("selectSales")
-        const junior = document.getElementById("selectJunior")
+        const sales = document.getElementById("onl-selectSales")
+        const junior = document.getElementById("onl-selectJunior")
 
         sales.onclick = () => {
             this.workerType = WorkerType.Sales
@@ -132,7 +132,7 @@ export class AutoCalc extends Window {
             sales.classList.remove("active")
         }
 
-        const achieved = document.getElementById("inputAchieved") as HTMLInputElement
+        const achieved = document.getElementById("onl-inputAchieved") as HTMLInputElement
 
         // todo: check allowed characters
 

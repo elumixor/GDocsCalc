@@ -1,0 +1,26 @@
+@import "../layout";
+
+#window-settings {
+  position: fixed;
+  backdrop-filter: blur(10px);
+
+  > * {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0 $icon-size * 4;
+
+
+    > * {
+      display: inline-block;
+
+      &:first-child {
+        margin-top: $icon-size * 8;
+      }
+
+      width: 100%;
+      text-align: left;
+      margin: $icon-size 0;
+    }
+  }
+}
