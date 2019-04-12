@@ -1,5 +1,6 @@
 @import "layout";
 @import "colors";
+@import "googleButton";
 
 * {
   font-family: "HelveticaNeue", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -148,3 +149,11 @@ input[type=number]::-webkit-outer-spin-button {
 #revenue {
   font-weight: 900;
 }
+
+.window-panel {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  transition: .3s background-color ease-in-out;
+}
+

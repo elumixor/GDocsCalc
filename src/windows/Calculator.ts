@@ -1,24 +1,15 @@
+import {singleton} from "tsyringe"
+import settings from "../Settings"
+import {WindowPanel} from "../WindowPanel"
+import {Window} from "./Window"
+
 export enum WorkerType {
     Sales, Junior
 }
 
 const revenueSpan = document.getElementById("revenue") as HTMLSpanElement
-const fixed = {
-    sales: 15_000,
-    junior: 10_000
-}
-const meetings = {
-    sales: {
-        count: 15,
-        revenue: 4_000
-    },
-    junior: {
-        count: 8,
-        revenue: 2_000
-    }
-}
 
-export class Application {
+export class Calculator extends Window {
     //region Worker Type
     private _workerType: WorkerType
 
@@ -27,7 +18,8 @@ export class Application {
     }
 
     public set workerType(w: WorkerType) {
-        document.body.style.backgroundColor = w === WorkerType.Sales ? "#D8E8FF" : "#E0FFD8"
+        this.panel.background = w === WorkerType.Sales
+            ? settings.styles.colors.sales : settings.styles.colors.jun
         this._workerType = w
         this.calculate()
     }
@@ -89,15 +81,15 @@ export class Application {
     private calculate() {
         let revenue = 0
         if (this.workerType === WorkerType.Sales) {
-            revenue += fixed.sales
+            revenue += settings.revenue.fixed.sales
 
-            if (this.meetingsCount >= meetings.sales.count)
-                revenue += meetings.sales.revenue
+            if (this.meetingsCount >= settings.revenue.meetings.sales.count)
+                revenue += settings.revenue.meetings.sales.revenue
         } else {
-            revenue += fixed.junior
+            revenue += settings.revenue.fixed.jun
 
-            if (this.meetingsCount >= meetings.junior.count)
-                revenue += meetings.junior.revenue
+            if (this.meetingsCount >= settings.revenue.meetings.jun.count)
+                revenue += settings.revenue.meetings.jun.revenue
         }
 
         revenue = Math.max(revenue, 0)
@@ -105,7 +97,6 @@ export class Application {
         if (this._achieved > 0 && this._goal > 0) {
 
             const percentage = this._achieved / this._goal
-            console.log(percentage)
 
             // todo[Spec] in == 0.75, == 90,
             if (percentage > .75 && percentage < .9) {
@@ -123,7 +114,8 @@ export class Application {
         revenueSpan.innerText = String(revenue)
     }
 
-    constructor() {
+    constructor(panel: WindowPanel) {
+        super(panel)
         this.workerType = WorkerType.Sales
     }
 }

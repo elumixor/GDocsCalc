@@ -1,0 +1,24 @@
+{
+  "revenue": {
+    "fixed": {
+      "jun": 10000,
+      "sales": 15000
+    },
+    "meetings": {
+      "sales": {
+        "count": 15,
+        "revenue": 4000
+      },
+      "jun": {
+        "count": 8,
+        "revenue": 2000
+      }
+    }
+  },
+  "styles": {
+    "colors": {
+      "sales": "#D8E8FF",
+      "jun": "#E0FFD8"
+    }
+  }
+}
