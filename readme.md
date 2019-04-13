@@ -27,17 +27,12 @@ custom input / from tables
     - [ ] Test
 - [ ] Add automatic table data retrieval
   - [x] GDocs Api
-    - [ ] Get tokens from file
-    - [ ] Refresh tokens automatically
-    - [ ] Prompt user authorization on tokens expiry
-  - [ ] Data from sheets
-    - [ ]
-    
-    
-- [ ] Testing
-- [ ] Bones
-  - [ ]
-  - [ ] Config from file
-  - [ ]
-  - [ ] Settings
-- [ ] Main logic
+  - [ ] Naive workflow
+    - [ ] Login + redirection
+    - [ ] Get sheets data
+      - [ ] Determine date -\> correct table cells
+      - [ ] Get to calculator 
+    - [ ] Save tokens to file
+    - [ ] Handle wrong spreadsheets locations
+    - [ ] Handle tokens expiration
+- [ ] ...

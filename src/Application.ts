@@ -81,7 +81,8 @@ export class Application {
             // todo: sing in logic here
             this.loggedIn = true
 
-            this.open(sheets)
+            if (this.sheetsOk) this.open(autoCalc)
+            else this.open(sheets)
         })
         sign.offlineUse.subscribe(() => this.open(offlineCalc))
         sheets.saved.subscribe(() => {
