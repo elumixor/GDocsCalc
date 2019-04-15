@@ -1,26 +1,22 @@
-import {singleton} from "tsyringe"
 import {WindowPanel} from "../WindowPanel"
 import {Window} from "./Window"
-import {settings} from "../settings"
-
-export enum WorkerType {
-    Sales, Junior
-}
+import {config, save} from "../config"
+import {calculate} from "../calculator"
 
 const revenueSpan = document.getElementById("revenue") as HTMLSpanElement
 
 export class OfflineCalc extends Window {
     //region Worker Type
-    private _workerType: WorkerType
-
     public get workerType() {
-        return this._workerType
+        return config.workerType
     }
 
-    public set workerType(w: WorkerType) {
-        this.panel.background = w === WorkerType.Sales
-            ? settings.styles.colors.sales : settings.styles.colors.jun
-        this._workerType = w
+    public set workerType(w: "sales" | "jun") {
+        this.panel.background = w === "sales"
+            ? config.styles.colors.sales : config.styles.colors.jun
+        config.workerType = w
+        // todo: this should be saved on app exit
+        save()
         this.calculate()
     }
 
@@ -79,55 +75,23 @@ export class OfflineCalc extends Window {
 
     /** Calculate total revenue */
     private calculate() {
-        let revenue = 0
-        if (this.workerType === WorkerType.Sales) {
-            revenue += settings.revenue.fixed.sales
-
-            if (this.meetingsCount >= settings.revenue.meetings.sales.count)
-                revenue += settings.revenue.meetings.sales.revenue
-        } else {
-            revenue += settings.revenue.fixed.jun
-
-            if (this.meetingsCount >= settings.revenue.meetings.jun.count)
-                revenue += settings.revenue.meetings.jun.revenue
-        }
-
-        revenue = Math.max(revenue, 0)
-
-        if (this._achieved > 0 && this._goal > 0) {
-
-            const percentage = this._achieved / this._goal
-
-            // todo[Spec] in == 0.75, == 90,
-            if (percentage > .75 && percentage < .9) {
-                revenue += 0.02 * this._achieved
-            } else if (percentage > .9) {
-                revenue += 0.04 * this._achieved
-
-                if (percentage > 1) {
-                    const delta = this._achieved - this._goal
-                    revenue += 0.05 * delta
-                }
-            }
-        }
-
-        revenueSpan.innerText = String(revenue)
+        revenueSpan.innerText = String(calculate(this.workerType, this.meetingsCount, this.goal, this.achieved))
     }
 
     constructor(panel: WindowPanel) {
         super(panel)
-        this.workerType = WorkerType.Sales
+        this.workerType = "sales"
 
         const sales = document.getElementById("selectSales")
         const junior = document.getElementById("selectJunior")
 
         sales.onclick = () => {
-            this.workerType = WorkerType.Sales
+            this.workerType = "sales"
             sales.classList.add("active")
             junior.classList.remove("active")
         }
         junior.onclick = () => {
-            this.workerType = WorkerType.Junior
+            this.workerType = "jun"
             junior.classList.add("active")
             sales.classList.remove("active")
         }

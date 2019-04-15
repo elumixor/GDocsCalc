@@ -9,8 +9,8 @@ import {Settings} from "./windows/Settings"
 import {safeDrag} from "./dom"
 import {remote} from "electron"
 import * as account from "./account"
-import * as s from "./settings"
 import {getSheet, parseSheetId, sheets} from "./spreadsheets"
+import {config} from "./config"
 
 export class SettingOption {
     constructor(public readonly displayName: string,
@@ -27,8 +27,9 @@ export interface SettingsOptions {
 
 @singleton()
 export class Application {
-    private goalSheet: any = null
-    private meetingsSheet: any = null
+    private goalSheet: string[][] = null
+    private meetingsSheet: string[][] = null
+    private workerType: string = config.workerType
 
     public get isLoggedIn(): boolean {
         return account.credentials != undefined
@@ -79,15 +80,15 @@ export class Application {
         const sign = new SignIn(new WindowPanel("window-sign-in"))
         const sheets = new SetSheets(new WindowPanel("window-set-sheets"))
         const autoCalc = new AutoCalc(new WindowPanel("window-calculate-online"))
-        const settings = new Settings(new WindowPanel("window-settings"))
+        const _settings = new Settings(new WindowPanel("window-settings"))
 
         this.currentWindow = sign
 
         // Window control
         document.getElementById("window-close").onclick = safeDrag(() => remote.getCurrentWindow().close())
         document.getElementById("open-settings").onclick = safeDrag(() => {
-            settings.options = this.options
-            settings.toggle()
+            _settings.options = this.options
+            _settings.toggle()
         })
 
         const onSheetsSaved = () => {
@@ -95,8 +96,17 @@ export class Application {
                 this.getSheets().then(
                     () => {
                         // todo: assign fetched spreadsheet data
-                        console.log(this.goalSheet)
-                        console.log(this.meetingsSheet)
+                        autoCalc.meetingsCount = this.meetingsSheet.length
+
+                        const month = new Date().getMonth()
+                        const goalsRow = config.workerType === "sales" ? this.goalSheet[4] : this.goalSheet[10]
+
+                        console.log(goalsRow)
+
+                        if (month === 0 || month === 11) autoCalc.goal = parseInt(goalsRow[month], 10)
+                        else autoCalc.goal = (month % 2 === 0 ?
+                            parseInt(goalsRow[month - 1].replace(/\s/g, ""), 10)
+                            : 0)
 
                         this.open(autoCalc)
                     },
@@ -129,26 +139,26 @@ export class Application {
 
         this.optionsTotal = {
             goOnline: new SettingOption("Go online", () => {
-                settings.panel.hide()
+                _settings.panel.hide()
 
                 this.usingOffline = false
                 this.open(sign)
             }),
             changeAccount: new SettingOption("Change account", () => {
-                settings.panel.hide()
+                _settings.panel.hide()
 
                 // logout
                 this.open(sign)
 
             }),
             changeSpreadsheets: new SettingOption("Change spreadsheets url", () => {
-                settings.panel.hide()
+                _settings.panel.hide()
 
                 this.open(sheets)
 
             }),
             useOffline: new SettingOption("Use offline", () => {
-                settings.panel.hide()
+                _settings.panel.hide()
 
                 this.usingOffline = true
                 // logout...

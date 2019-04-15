@@ -4,7 +4,7 @@ import {google} from "googleapis"
 import open from "open"
 import keys from "./sdata/client_secret.json"
 import {readJson, readJsonSync, writeJson} from "./util"
-import {settings} from "./settings"
+import {config} from "./config"
 
 const pathToCredentials = "../config/credentials.json"
 const scopes = ["https://www.googleapis.com/auth/spreadsheets"]

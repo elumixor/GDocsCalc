@@ -84,6 +84,7 @@ tbody {
   > * {
     > td {
       padding: 0 $icon-size * 3 0 $icon-size * 3;
+      text-align: right;
     }
 
     min-height: $icon-size * 4;

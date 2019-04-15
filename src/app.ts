@@ -1,5 +1,5 @@
 import "reflect-metadata"
-import {dragWindowOn, removeInnerWhitespacesRecursively, safeDrag} from "./dom"
+import {dragWindowOn, removeInnerWhitespacesRecursively} from "./dom"
 import {container} from "tsyringe"
 import {Application} from "./Application"
 

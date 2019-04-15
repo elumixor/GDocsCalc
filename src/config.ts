@@ -3,14 +3,14 @@ import {readJson, readJsonSync, writeJson} from "./util"
 const pathToConfig = "../config/app.config.json"
 
 export function save() {
-    return writeJson(pathToConfig, settings)
+    return writeJson(pathToConfig, config)
 }
 
 export async function load() {
-    settings = await readJson(pathToConfig)
+    config = await readJson(pathToConfig)
 }
 
-export let settings: {
+export let config: {
     revenue: {
         fixed: {
             jun: number,
@@ -32,5 +32,6 @@ export let settings: {
             sales: string,
             jun: string
         }
-    }
+    },
+    workerType: "sales" | "jun"
 } = readJsonSync(pathToConfig)

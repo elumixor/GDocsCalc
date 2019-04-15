@@ -1,7 +1,6 @@
 import {google} from "googleapis"
 import {client, credentials} from "./account"
 import {readJson, readJsonSync, writeJson} from "./util"
-import {settings} from "./settings"
 
 const pathToSheets = "../config/spreadsheets.json"
 const sheetPrefix = "spreadsheets/d/"
@@ -64,7 +63,7 @@ export function parseSheetId(url: string) {
 
 const gsheets = google.sheets("v4")
 
-export async function getSheet(sheetData: { id: string, gid: number }) {
+export async function getSheet(sheetData: { id: string, gid: number }): Promise<string[][]> {
     const cl = client
     cl.credentials = credentials
     const spreadsheet = await gsheets.spreadsheets.get({auth: cl, spreadsheetId: sheetData.id})
@@ -75,7 +74,7 @@ export async function getSheet(sheetData: { id: string, gid: number }) {
         spreadsheetId: sheetData.id,
         range: listTitle
     }).then(value => {
-        return value.data
+        return value.data.values
     })
 }
 

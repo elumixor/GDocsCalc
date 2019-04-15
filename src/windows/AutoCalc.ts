@@ -1,25 +1,24 @@
-import {settings} from "../settings"
+import {default as conf, config, save} from "../config"
 import {WindowPanel} from "../WindowPanel"
 import {Window} from "./Window"
-
-export enum WorkerType {
-    Sales, Junior
-}
+import {calculate} from "../calculator"
 
 const revenueSpan = document.getElementById("onl-revenue") as HTMLSpanElement
 
 export class AutoCalc extends Window {
-    //region Worker Type
-    private _workerType: WorkerType
+    private meetingsField: HTMLElement
+    private goalsField: HTMLElement
 
+    //region Worker Type
     public get workerType() {
-        return this._workerType
+        return config.workerType
     }
 
-    public set workerType(w: WorkerType) {
-        this.panel.background = w === WorkerType.Sales
-            ? settings.styles.colors.sales : settings.styles.colors.jun
-        this._workerType = w
+    public set workerType(w: "sales" | "jun") {
+        this.panel.background = w === "sales"
+            ? config.styles.colors.sales : config.styles.colors.jun
+        config.workerType = w
+        save()
         this.calculate()
     }
 
@@ -30,6 +29,7 @@ export class AutoCalc extends Window {
 
     public set meetingsCount(m: number) {
         this._meetingsCount = m
+        this.meetingsField.innerText = String(m)
         this.calculate()
     }
 
@@ -44,6 +44,8 @@ export class AutoCalc extends Window {
 
     public set goal(m: number) {
         this._goal = m
+        console.log(m)
+        this.goalsField.innerText = String(m)
         this.calculate()
     }
 
@@ -78,57 +80,30 @@ export class AutoCalc extends Window {
 
     /** Calculate total revenue */
     private calculate() {
-        let revenue = 0
-        if (this.workerType === WorkerType.Sales) {
-            revenue += settings.revenue.fixed.sales
-
-            if (this.meetingsCount >= settings.revenue.meetings.sales.count)
-                revenue += settings.revenue.meetings.sales.revenue
-        } else {
-            revenue += settings.revenue.fixed.jun
-
-            if (this.meetingsCount >= settings.revenue.meetings.jun.count)
-                revenue += settings.revenue.meetings.jun.revenue
-        }
-
-        revenue = Math.max(revenue, 0)
-
-        if (this._achieved > 0 && this._goal > 0) {
-
-            const percentage = this._achieved / this._goal
-
-            // todo[Spec] in == 0.75, == 90,
-            if (percentage > .75 && percentage < .9) {
-                revenue += 0.02 * this._achieved
-            } else if (percentage > .9) {
-                revenue += 0.04 * this._achieved
-
-                if (percentage > 1) {
-                    const delta = this._achieved - this._goal
-                    revenue += 0.05 * delta
-                }
-            }
-        }
-
-        revenueSpan.innerText = String(revenue)
+        revenueSpan.innerText = String(calculate(this.workerType, this.meetingsCount, this.goal, this.achieved))
     }
+
+    private sales: HTMLElement
+    private junior: HTMLElement
 
     constructor(panel: WindowPanel) {
         super(panel)
-        this.workerType = WorkerType.Sales
+        this.workerType = "sales"
 
-        const sales = document.getElementById("onl-selectSales")
-        const junior = document.getElementById("onl-selectJunior")
+        this.sales = document.getElementById("onl-selectSales")
+        this.junior = document.getElementById("onl-selectJunior")
+        this.meetingsField = document.getElementById("fetched-meetings")
+        this.goalsField = document.getElementById("fetched-goal")
 
-        sales.onclick = () => {
-            this.workerType = WorkerType.Sales
-            sales.classList.add("active")
-            junior.classList.remove("active")
+        this.sales.onclick = () => {
+            this.workerType = "sales"
+            this.sales.classList.add("active")
+            this.junior.classList.remove("active")
         }
-        junior.onclick = () => {
-            this.workerType = WorkerType.Junior
-            junior.classList.add("active")
-            sales.classList.remove("active")
+        this.junior.onclick = () => {
+            this.workerType = "jun"
+            this.junior.classList.add("active")
+            this.sales.classList.remove("active")
         }
 
         const achieved = document.getElementById("onl-inputAchieved") as HTMLInputElement
