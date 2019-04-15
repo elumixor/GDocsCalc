@@ -8,6 +8,9 @@ import {AutoCalc} from "./windows/AutoCalc"
 import {Settings} from "./windows/Settings"
 import {safeDrag} from "./dom"
 import {remote} from "electron"
+import * as account from "./account"
+import * as s from "./settings"
+import {getSheet, parseSheetId, sheets} from "./spreadsheets"
 
 export class SettingOption {
     constructor(public readonly displayName: string,
@@ -24,14 +27,24 @@ export interface SettingsOptions {
 
 @singleton()
 export class Application {
-    private loggedIn = false
+    private goalSheet: any = null
+    private meetingsSheet: any = null
 
-    public get isLoggedIn() {
-        return this.loggedIn
+    public get isLoggedIn(): boolean {
+        return account.credentials != undefined
+    }
+
+    private async getSheets() {
+        console.log(sheets)
+        console.log(sheets.goals)
+        console.log(sheets.goals.url)
+        return Promise.all([
+            (async () => this.goalSheet = await getSheet(parseSheetId(sheets.goals.url)))(),
+            (async () => this.meetingsSheet = await getSheet(parseSheetId(sheets.meetings.url)))()])
     }
 
     public get sheetsOk() {
-        return false
+        return this.goalSheet !== null && this.meetingsSheet !== null
     }
 
     private usingOffline = false
@@ -63,7 +76,7 @@ export class Application {
 
     constructor() {
         const offlineCalc = new OfflineCalc(new WindowPanel("window-calculate-offline"))
-        const sign = new SignIn(new WindowPanel("window-sign-in", false))
+        const sign = new SignIn(new WindowPanel("window-sign-in"))
         const sheets = new SetSheets(new WindowPanel("window-set-sheets"))
         const autoCalc = new AutoCalc(new WindowPanel("window-calculate-online"))
         const settings = new Settings(new WindowPanel("window-settings"))
@@ -77,19 +90,36 @@ export class Application {
             settings.toggle()
         })
 
-        sign.singedId.subscribe(() => {
-            // todo: sing in logic here
-            this.loggedIn = true
-
-            if (this.sheetsOk) this.open(autoCalc)
-            else this.open(sheets)
-        })
-        sign.offlineUse.subscribe(() => this.open(offlineCalc))
-        sheets.saved.subscribe(() => {
-            if (this.isLoggedIn) this.open(autoCalc)
-            else if (this.usingOffline) this.open(offlineCalc)
+        const onSheetsSaved = () => {
+            if (this.isLoggedIn) {
+                this.getSheets().then(
+                    () => this.open(autoCalc),
+                    err => {
+                        console.warn("Could not get spreadsheet data", err)
+                        this.open(sheets)
+                    })
+            } else if (this.usingOffline) this.open(offlineCalc)
             else this.open(sign)
+        }
+
+        sign.singedId.subscribe(() => {
+            account.signIn().then(() => {
+                account.save().then(() => console.log("credentials saved!", account.credentials),
+                    err => console.warn("Could not save credentials to a file.", err))
+                this.getSheets().then(
+                    () => this.open(autoCalc),
+                    err => {
+                        console.warn("Could not get spreadsheet data", err)
+                        this.open(sheets)
+                    })
+            }, (err) => {
+                console.log(err)
+            })
         })
+
+        sign.offlineUse.subscribe(() => this.open(offlineCalc))
+
+        sheets.saved.subscribe(() => onSheetsSaved())
 
         this.optionsTotal = {
             goOnline: new SettingOption("Go online", () => {
@@ -121,5 +151,8 @@ export class Application {
                 this.open(offlineCalc)
             })
         }
+
+        // Start main logic
+        onSheetsSaved()
     }
 }

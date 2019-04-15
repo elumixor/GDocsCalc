@@ -122,3 +122,6 @@ test/**/*.js
 # sensitive data
 sdata
 release-builds
+dist
+sdata/credentials.json
+sdata/spreadsheets.json

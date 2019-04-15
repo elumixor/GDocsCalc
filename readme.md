@@ -28,11 +28,12 @@ custom input / from tables
 - [ ] Add automatic table data retrieval
   - [x] GDocs Api
   - [ ] Naive workflow
-    - [ ] Login + redirection
-    - [ ] Get sheets data
+    - [x] Login + redirection
+    - [x] Get sheets data
       - [ ] Determine date -\> correct table cells
       - [ ] Get to calculator 
-    - [ ] Save tokens to file
+    - [x] Save tokens to file
+    - [x] Save spreadsheets locations to file
     - [ ] Handle wrong spreadsheets locations
     - [ ] Handle tokens expiration
 - [ ] ...

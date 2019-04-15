@@ -1,10 +1,16 @@
-import {singleton} from "tsyringe"
-import * as fs from "fs"
-import * as path from "path"
+import {readJson, readJsonSync, writeJson} from "./util"
 
 const pathToConfig = "../config/app.config.json"
 
-export interface DataSettings {
+export function save() {
+    return writeJson(pathToConfig, settings)
+}
+
+export async function load() {
+    settings = await readJson(pathToConfig)
+}
+
+export let settings: {
     revenue: {
         fixed: {
             jun: number,
@@ -27,7 +33,4 @@ export interface DataSettings {
             jun: string
         }
     }
-}
-
-const settings = JSON.parse(fs.readFileSync(path.join(__dirname, pathToConfig)).toString("utf8"))
-export default settings
+} = readJsonSync(pathToConfig)

@@ -1,5 +1,4 @@
-import {singleton} from "tsyringe"
-import settings from "../Settings"
+import {settings} from "../settings"
 import {WindowPanel} from "../WindowPanel"
 import {Window} from "./Window"
 

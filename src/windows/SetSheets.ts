@@ -1,6 +1,7 @@
 import {Window} from "./Window"
 import {WindowPanel} from "../WindowPanel"
 import {EventEmitter} from "../EventEmitter"
+import * as ss from "../spreadsheets"
 
 export class SetSheets extends Window {
     public saved = new EventEmitter()
@@ -14,11 +15,12 @@ export class SetSheets extends Window {
 
         saveSheets.onclick = () => {
             const goalsUrl = goalsSheet.value
-            const meetinsUrl = meetingsSheet.value
+            const meetingsUrl = meetingsSheet.value
 
-            // todo: parse sheets id
-            // todo: save values
-            // todo: check if sheets ids are ok
+            ss.sheets.goals.url = goalsUrl
+            ss.sheets.meetings.url = meetingsUrl
+
+            ss.save()
 
             this.saved.emit()
         }

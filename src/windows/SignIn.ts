@@ -2,7 +2,7 @@ import {Window} from "./Window"
 import {WindowPanel} from "../WindowPanel"
 import {EventEmitter} from "../EventEmitter"
 
-export class SignIn extends Window{
+export class SignIn extends Window {
     public singedId = new EventEmitter()
     public offlineUse = new EventEmitter()
 

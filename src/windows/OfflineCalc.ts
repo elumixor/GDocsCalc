@@ -1,7 +1,7 @@
 import {singleton} from "tsyringe"
-import settings from "../Settings"
 import {WindowPanel} from "../WindowPanel"
 import {Window} from "./Window"
+import {settings} from "../settings"
 
 export enum WorkerType {
     Sales, Junior
