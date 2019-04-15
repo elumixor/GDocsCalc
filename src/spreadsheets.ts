@@ -64,34 +64,20 @@ export function parseSheetId(url: string) {
 
 const gsheets = google.sheets("v4")
 
-export async function getSheet(sheetData: {id: string, gid: number}) {
+export async function getSheet(sheetData: { id: string, gid: number }) {
     const cl = client
     cl.credentials = credentials
     const spreadsheet = await gsheets.spreadsheets.get({auth: cl, spreadsheetId: sheetData.id})
-    return spreadsheet.data.sheets.find(s => s.properties.sheetId === sheetData.gid)
+    const listTitle = (spreadsheet.data.sheets.find(s => s.properties.sheetId === sheetData.gid)
+        || spreadsheet.data.sheets[0]).properties.title
+    return gsheets.spreadsheets.values.get({
+        auth: cl,
+        spreadsheetId: sheetData.id,
+        range: listTitle
+    }).then(value => {
+        return value.data
+    })
 }
-
-//export async function getData(credentials: any): Promise<any> {
-//    return new Promise<any>((resolve, reject) => {
-//        const sheet_metadata = sheets.spreadsheets.get({auth: credentials, spreadsheetId: "d"}).then(r => {
-//            sheets.spreadsheets.values.get(
-//                {
-//                    auth: credentials,
-//                    spreadsheetId,
-//                    range: r.data.sheets[0].properties.title
-//                },
-//                (err, res) => {
-//                    if (err) {
-//                        console.error("The API returned an error.")
-//                        console.error(err)
-//                        reject(err)
-//                    }
-//                    resolve(res.data)
-//                }
-//            )
-//        })
-//    })
-//}
 
 export async function updateData(calculated: any) {
 
