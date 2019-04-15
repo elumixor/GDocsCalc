@@ -93,7 +93,13 @@ export class Application {
         const onSheetsSaved = () => {
             if (this.isLoggedIn) {
                 this.getSheets().then(
-                    () => this.open(autoCalc),
+                    () => {
+                        // todo: assign fetched spreadsheet data
+                        console.log(this.goalSheet)
+                        console.log(this.meetingsSheet)
+
+                        this.open(autoCalc)
+                    },
                     err => {
                         console.warn("Could not get spreadsheet data", err)
                         this.open(sheets)

@@ -13,6 +13,6 @@ describe("parse id", function () {
             "sheetID/",
             "sheetID"]
 
-        sheetUrls.forEach(sheet => expect("sheetID").toBe(parseSheetId(sheet)))
+        sheetUrls.forEach(sheet => expect("sheetID").toBe(parseSheetId(sheet).id))
     })
 })

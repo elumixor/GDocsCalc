@@ -13,6 +13,9 @@ export class SetSheets extends Window {
         const meetingsSheet = document.getElementById("meetings-sheet") as HTMLInputElement
         const saveSheets = document.getElementById("save-sheets") as HTMLSpanElement
 
+        goalsSheet.value = ss.sheets.goals.url
+        meetingsSheet.value = ss.sheets.meetings.url
+
         saveSheets.onclick = () => {
             const goalsUrl = goalsSheet.value
             const meetingsUrl = meetingsSheet.value

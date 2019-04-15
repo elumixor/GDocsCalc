@@ -1,3 +1,20 @@
+//import {parseSheetId} from "./spreadsheets"
+//
+//const sheetUrls = ["https://docs.google.com/spreadsheets/d/sheetID/edit?ts=5ca8cf70#gid=0",
+//    "https://docs.google.com/spreadsheets/d/sheetID/",
+//    "https://docs.google.com/spreadsheets/d/sheetID",
+//    "docs.google.com/spreadsheets/d/sheetID/edit?ts=5ca8cf70#gid=1230",
+//    "docs.google.com/spreadsheets/d/sheetID/edit",
+//    "docs.google.com/spreadsheets/d/sheetID/",
+//    "docs.google.com/spreadsheets/d/sheetID",
+//    "sheetID/edit?ts=5ca8cf70#gid=0",
+//    "sheetID/",
+//    "sheetID"]
+//
+//sheetUrls.forEach(sheet => {
+//    console.log(parseSheetId(sheet))
+//})
+
 import {app, BrowserWindow} from "electron"
 import * as path from "path"
 let mainWindow: Electron.BrowserWindow

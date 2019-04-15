@@ -44,31 +44,31 @@ export async function load() {
 export function parseSheetId(url: string) {
     let before = sheetPrefix
     let indexOf = url.indexOf(before)
-    let result = ""
+    let id = ""
     if (indexOf > 0) {
         const split = url.substring(indexOf + before.length).split("/")
-        if (split.length < 1) result = split[0]
-        else result = split[0]
+        if (split.length < 1) id = split[0]
+        else id = split[0]
     } else {
         const split = url.split("/")
-        if (split.length > 0) result = split[0]
+        if (split.length > 0) id = split[0]
     }
 
-    if (result.length < 1) throw new Error("Could not parse spreadsheet id")
+    if (id.length < 1) throw new Error("Could not parse spreadsheet id")
 
-    // todo parse gid (list id)
+    const lastGid = url.lastIndexOf("gid")
+    const gid: number = lastGid < 0 ? 0 : parseInt(url.substring(lastGid + "gid".length + 1), 10)
 
-    return result
+    return {id, gid}
 }
 
 const gsheets = google.sheets("v4")
 
-export function getSheet(id: string) {
+export async function getSheet(sheetData: {id: string, gid: number}) {
     const cl = client
     cl.credentials = credentials
-    console.log(cl)
-    console.log(id)
-    return gsheets.spreadsheets.get({auth: cl, spreadsheetId: id})
+    const spreadsheet = await gsheets.spreadsheets.get({auth: cl, spreadsheetId: sheetData.id})
+    return spreadsheet.data.sheets.find(s => s.properties.sheetId === sheetData.gid)
 }
 
 //export async function getData(credentials: any): Promise<any> {
